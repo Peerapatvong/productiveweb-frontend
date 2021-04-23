@@ -1,38 +1,376 @@
-.App {
-  text-align: center;
+* {
+  padding: 0px;
+  margin: 0px;
+  box-sizing: border-box;
 }
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+.logo {
+  margin-left: 5px;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
-  }
+.header {
+  background-color: #a6a6a6;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+  height: 60px;
 }
 
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
+.navbarheader {
+  color: #ffff;
+  font-size: 25px;
+  background-color: inherit;
+  border-style: none;
+  outline: none;
+}
+
+.navbar-register {
+  color: #ffff;
+  font-size: 20px;
+  background-color: inherit;
+  border-style: none;
+}
+
+.navbar:focus {
+  outline: none;
+  border: none;
+}
+
+.into {
+  margin-right: 5px;
+  display: flex;
+  flex-direction: row;
+  position: relative;
+  bottom: 10px;
+}
+
+.centerlogo {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.centerinput {
+  /* background-color: khaki; */
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  padding-top: auto;
+  height: 600px;
+}
+
+.whiteinput {
+  color: #a6a6a6;
+  height: 40px;
+  border-radius: 15px;
+  margin-right: 5px;
+  margin-bottom: 5px;
+  padding-left: 10px;
+  border: 2px solid #a6a6a6;
+}
+
+.whiteinput:focus {
+  outline: none;
+  background-color: #f8edac;
+}
+
+.greenbutton {
+  color: #ffff;
+  background-color: #69b293;
+  height: 50px;
+  width: 400px;
+  border-radius: 20px;
+  font-size: 20px;
+  border-style: none;
+}
+
+.minigreenbutton {
+  color: #ffff;
+  background-color: #69b293;
+  height: 50px;
+  width: 150px;
+  border-radius: 20px;
+  font-size: 20px;
+  border-style: none;
+}
+
+.minibluebutton {
+  color: #ffff;
+  background-color: #72afdd;
+  height: 50px;
+  width: 150px;
+  border-radius: 20px;
+  font-size: 20px;
+  border-style: none;
+}
+
+.bluetag {
+  color: #ffff;
+  background-color: #72afdd;
+  height: 40px;
+  width: 100px;
+  border-radius: 20px;
+  font-size: 15px;
+  border-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.inlinediv {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  /* align-items: center; */
+  margin-bottom: 25px;
+}
+
+.ant-dropdown-trigger:click {
+  background-color: "#f8edac";
+}
+
+.logininput {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 25px;
+}
+
+.divpage {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  padding: 5%;
+}
+.consultantcard {
   display: flex;
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+  background-color: #f2f2f2;
+  height: 400px;
+  width: 300px;
+  padding: 2%;
+  border-radius: 15px;
 }
 
-.App-link {
-  color: #61dafb;
+.pricecard {
+  /* background-color: teal; */
+  height: 400px;
+  width: 600px;
+  padding: 3%;
 }
 
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
-  }
+.interesttag {
+  display: flex;
+  flex-direction: row;
+}
+
+.totalcard {
+  background-color: #f8f8f8;
+  height: 40%;
+  margin-top: 3%;
+  margin-bottom: 5%;
+  padding: 2%;
+  display: flex;
+  align-items: center;
+}
+
+.total {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.pricebutton {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.divcart {
+  padding: 15px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+}
+
+.headercart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  padding: 15px 25px;
+}
+.ordercard {
+  justify-content: center;
+  padding: 10px;
+  margin-bottom: 10px;
+  border-radius: 15px;
+  background-color: #f2f2f2;
+}
+
+.orderlist {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.deleteorder {
+  display: flex;
+  justify-content: flex-end;
+}
+
+.infoordercard {
+  padding-top: 1%;
+}
+
+.sumprice {
+  display: flex;
+  flex-direction: row;
+  justify-content: flex-end;
+}
+
+.buttoncartpage {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  margin-top: 15px;
+}
+
+.greentext {
+  color: #69b293;
+  display: flex;
+}
+
+.statusconsultant {
+  color: red;
+  display: flex;
+  justify-content: center;
+}
+
+.divpayment {
+  padding: 15px;
+  background-color: #e9e9e9;
+  border-radius: 10px;
+  display: "flex";
+  justify-content: "flex-start";
+}
+
+.admincart {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.admincart-bookingno {
+  height: auto;
+  width: 28%;
+}
+.admincart-bank {
+  height: auto;
+  width: 27%;
+}
+.admincart-total {
+  height: auto;
+  width: 45%;
+}
+
+.adminlist {
+  display: flex;
+  flex-direction: row;
+  /* justify-content: space-between; */
+  align-items: center;
+
+  padding-left: 5%;
+  padding-right: 5%;
+}
+
+.adminlist-no {
+  height: auto;
+  width: 10%;
+}
+.adminlist-pic {
+  height: auto;
+  width: 15%;
+}
+
+.adminlist-bank {
+  height: auto;
+  width: 30%;
+}
+
+.adminlist-amount {
+  height: auto;
+  width: 20%;
+}
+
+.adminlist-total {
+  height: auto;
+  width: 50%;
+}
+
+.adminlist-button {
+  height: auto;
+  width: 25%;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.adminconfirmbutton {
+  height: 50px;
+  width: 150px;
+  color: #ffff;
+  background-color: #69b293;
+  border-radius: 20px;
+  font-size: 20px;
+  border-style: none;
+}
+
+.searchbyinterest {
+  display: flex;
+  justify-content: center;
+}
+
+.infoallconsultant {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+}
+
+.infoallconsultant-card {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  background-color: #f2f2f2;
+  height: auto;
+  width: 20%;
+  padding: 2%;
+  border-radius: 15px;
+}
+
+.cardbox-center {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.cardbox-left {
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.card-bluetag {
+  color: #ffff;
+  background-color: #72afdd;
+  height: 80%;
+  width: 40%;
+  padding: 5%;
+  border-radius: 20px;
+  font-size: 12px;
+  border-style: none;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
