@@ -1,20 +1,26 @@
-import React from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Navbar from '../constitutive/Navbar'
-import { useHistory } from 'react-router-dom'
-import {
-  DatePicker,
-  TimePicker,
-  Menu,
-  Dropdown,
-  Upload,
-  message,
-  Button,
-  Result
-} from 'antd'
+import axios from 'axios'
+import { useHistory, useParams } from 'react-router-dom'
+import { Menu, Dropdown, Upload, message, Button, Row, Col } from 'antd'
 import { DownOutlined, UploadOutlined } from '@ant-design/icons'
 import swal from 'sweetalert'
 
-function Paymentpage() {
+function PaymentPage() {
+  async function getDataCourse() {
+    const dataCourse = await axios.get('/course/getcourse/' + courseId)
+    // console.log(dataCourse)
+    // console.log(dataCourse.data.course)
+    setShowSingle(dataCourse.data.course)
+  }
+  // console.log(showSingle)
+  const [showSingle, setShowSingle] = useState()
+  const { courseId } = useParams()
+
+  useEffect(() => {
+    getDataCourse()
+  }, [])
+
   function onChange(date, dateString) {
     console.log(date, dateString)
   }
@@ -22,38 +28,36 @@ function Paymentpage() {
 
   const successpayment = () =>
     swal('Payment Sucess', 'Thankyou for Booking!', 'success').then((Result) =>
-      history.push('/allconsultant')
+      history.push('/')
     )
+
+  function handleChangeType(event) {
+    const { id } = event.target
+    setNameBank({ name: id })
+  }
+  const [bankname, setNameBank] = useState({
+    name: 'Bank'
+  })
 
   const menu = (
     <Menu>
-      <Menu.Item key="0">
-        <a>Kbank</a>
+      <Menu.Item>
+        <a id="Kbank" onClick={(e) => handleChangeType(e)}>
+          KBank
+        </a>
       </Menu.Item>
-      <Menu.Item key="1">
-        <a>SCB</a>
+      <Menu.Item>
+        <a id="SCB" onClick={(e) => handleChangeType(e)}>
+          SCB
+        </a>
       </Menu.Item>
-      <Menu.Item key="3">TMB</Menu.Item>
+      <Menu.Item>
+        <a id="Bangkok" onClick={(e) => handleChangeType(e)}>
+          Bangkok Bank
+        </a>
+      </Menu.Item>
     </Menu>
   )
-
-  const props = {
-    name: 'file',
-    action: 'https://www.mocky.io/v2/5cc8019d300000980a055e76',
-    headers: {
-      authorization: 'authorization-text'
-    },
-    onChange(info) {
-      if (info.file.status !== 'uploading') {
-        console.log(info.file, info.fileList)
-      }
-      if (info.file.status === 'done') {
-        message.success(`${info.file.name} file uploaded successfully`)
-      } else if (info.file.status === 'error') {
-        message.error(`${info.file.name} file upload failed.`)
-      }
-    }
-  }
 
   return (
     <div>
@@ -61,190 +65,152 @@ function Paymentpage() {
       <div style={{ padding: '3% 15%' }}>
         <div className="divcart" style={{ marginBottom: '30px' }}>
           <div className="headercart" style={{ padding: '3px 10px' }}>
-            <h2>Your Order</h2>
-            <h2>Time</h2>
-            <h2>Total</h2>
+            <Row justify="center" align="middle">
+              <h1>Your Order</h1>
+            </Row>
           </div>
 
-          <div className="ordercard" style={{ marginBottom: '10px' }}>
-            <div className="orderlist">
-              <div>
-                <img src="https://picsum.photos/60" alt="consultantpic" />
-              </div>
-              <div className="infoordercard">
-                <h2>steve job</h2>
-              </div>
-              <div>
-                <DatePicker onChange={onChange} />
-                <TimePicker.RangePicker
-                  format={'HH:mm'}
-                  minuteStep={30}
-                  style={{ width: '60%' }}
-                />
-              </div>
-              <div className="infoordercard">
-                <h2>20,000</h2>
-              </div>
-            </div>
-          </div>
-          <div className="ordercard" style={{ marginBottom: '10px' }}>
-            <div className="orderlist">
-              <div>
-                <img src="https://picsum.photos/60" alt="consultantpic" />
-              </div>
-              <div className="infoordercard">
-                <h2>steve job</h2>
-              </div>
-              <div>
-                <DatePicker onChange={onChange} />
-                <TimePicker.RangePicker
-                  format={'HH:mm'}
-                  minuteStep={30}
-                  style={{ width: '60%' }}
-                />
-              </div>
-              <div className="infoordercard">
-                <h2>20,000</h2>
-              </div>
-            </div>
-          </div>
-          <div className="ordercard" style={{ marginBottom: '10px' }}>
-            <div className="orderlist">
-              <div>
-                <img src="https://picsum.photos/60" alt="consultantpic" />
-              </div>
-              <div className="infoordercard">
-                <h2>steve job</h2>
-              </div>
-              <div>
-                <DatePicker onChange={onChange} />
-                <TimePicker.RangePicker
-                  format={'HH:mm'}
-                  minuteStep={30}
-                  style={{ width: '60%' }}
-                />
-              </div>
-              <div className="infoordercard">
-                <h2>20,000</h2>
-              </div>
-            </div>
+          <div className="ordercard">
+            <Row
+              gutter={{ xs: 8, sm: 16, md: 24, lg: 32 }}
+              justify="space-between"
+              align="middle"
+            >
+              <Col className="gutter-row" span={7}>
+                <Row justify="center" align="middle">
+                  <img
+                    src={showSingle?.coursePicture}
+                    alt="consultantpic"
+                    style={{ height: '120px', width: '200px' }}
+                  />
+                </Row>
+              </Col>
+
+              <Col className="gutter-row" span={7}>
+                <Row justify="start" align="start">
+                  <h2>{showSingle?.courseName}</h2>
+                  <p>{showSingle?.courseTeacher}</p>
+                </Row>
+              </Col>
+
+              <Col className="gutter-row" span={7}>
+                <Row justify="center" align="middle">
+                  <h2>{showSingle?.coursePrice}</h2>
+                </Row>
+              </Col>
+            </Row>
           </div>
 
-          <div className="sumprice">
-            <h1
-              style={{
-                textDecoration: 'underline',
-                color: '#69B293',
-                fontWeight: 'bold',
-                marginBottom: '0px'
-              }}
-            >
-              60,000 THB
-            </h1>
-          </div>
-        </div>
-        <div
-          className="divpayment"
-          style={{ marginBottom: '15px', width: 'auto' }}
-        >
-          <div className="headercart" style={{ padding: '3px 10px' }}>
-            <div>
-              <h2>Payment</h2>
-            </div>
-          </div>
-          {/* <div style={{ backgroundColor: "green", display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
           <div
-            style={{
-              marginBottom: '15px',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
+            className="divpayment"
+            style={{ marginBottom: '15px', width: 'auto' }}
           >
-            <img
-              style={{ marginRight: '10px' }}
-              src="https://picsum.photos/60"
-              alt="accountpic"
-            />
+            <div className="headercart" style={{ padding: '3px 10px' }}>
+              <div>
+                <h2>Payment</h2>
+              </div>
+            </div>
+            {/* <div style={{ backgroundColor: "green", display: "flex", flexDirection: "column", justifyContent: "center" }}> */}
             <div
               style={{
-                display: 'flex',
-                flexDirection: 'column',
-                alignItems: 'center'
-              }}
-            >
-              <h2 style={{ marginBottom: '5px' }}>
-                Accountname Peerapat Vongvanitch{' '}
-              </h2>
-              <h2> KBank 222-222-222</h2>
-            </div>
-          </div>
-          <div
-            style={{
-              marginBottom: '5px',
-              display: 'flex',
-              justifyContent: 'center'
-            }}
-          >
-            <div>
-              <h2 style={{ marginBottom: '0px' }}>Your Bank</h2>
-            </div>
-            <div
-              style={{
-                marginLeft: '10px',
+                marginBottom: '15px',
                 display: 'flex',
                 justifyContent: 'center'
               }}
             >
-              <Dropdown overlay={menu} trigger={['click']}>
-                <a
-                  className="ant-dropdown-link"
-                  style={{
-                    backgroundColor: 'white',
-                    outline: 'default',
-                    width: '120px',
-                    borderRadius: '15px',
-                    border: '2px solid',
-                    borderColor: '#a6a6a6',
-                    padding: '5px',
-                    marginRight: '5px',
-                    color: '#a6a6a6',
-                    textAlign: 'center'
-                    // backgroundColor: "#f8edac",
-                  }}
-                  onClick={(e) => e.preventDefault()}
+              <img
+                style={{ marginRight: '10px', width: '60px', height: '60px' }}
+                src="https://res.cloudinary.com/dpacp5tew/image/upload/v1621489831/kbank_c0yvht.png"
+                alt="accountpic"
+              />
+              <div
+                style={{
+                  display: 'flex',
+                  flexDirection: 'column',
+                  alignItems: 'center'
+                }}
+              >
+                <h2 style={{ marginBottom: '5px' }}>
+                  Accountname Peerapat Vongvanitch{' '}
+                </h2>
+                <h2> KBank 222-222-222</h2>
+              </div>
+            </div>
+            <div
+              style={{
+                marginBottom: '5px',
+                display: 'flex',
+                justifyContent: 'center'
+              }}
+            >
+              <div>
+                <h2 style={{ marginBottom: '0px' }}>Your Bank</h2>
+              </div>
+              <div
+                style={{
+                  marginLeft: '10px',
+                  display: 'flex',
+                  justifyContent: 'center'
+                }}
+              >
+                <Dropdown overlay={menu} trigger={['click']}>
+                  <a
+                    className="ant-dropdown-link"
+                    style={{
+                      backgroundColor: 'white',
+                      outline: 'default',
+                      width: '120px',
+                      borderRadius: '15px',
+                      border: '2px solid',
+                      borderColor: '#a6a6a6',
+                      padding: '5px',
+                      marginRight: '5px',
+                      color: '#a6a6a6',
+                      textAlign: 'center'
+                      // backgroundColor: "#f8edac",
+                    }}
+                    onClick={(e) => e.preventDefault()}
+                  >
+                    {bankname.name} <DownOutlined />
+                  </a>
+                </Dropdown>
+              </div>
+            </div>
+            {/* </div> */}
+            <div
+              style={{
+                display: 'flex',
+                justifyContent: 'center',
+                padding: '10px'
+              }}
+            >
+              <Upload>
+                <Button
+                  icon={<UploadOutlined />}
+                  // // onChange={(e) => {
+                  // //   console.log(e)
+                  // }}
                 >
-                  Bank <DownOutlined />
-                </a>
-              </Dropdown>
+                  Click to Upload
+                </Button>
+              </Upload>
             </div>
           </div>
-          {/* </div> */}
+
           <div
             style={{
               display: 'flex',
-              justifyContent: 'center',
-              padding: '10px'
+              justifyContent: 'flex-end'
             }}
           >
-            <Upload {...props}>
-              <Button icon={<UploadOutlined />}>Click to Upload</Button>
-            </Upload>
+            <button className="minigreenbutton" onClick={successpayment}>
+              confirm
+            </button>
           </div>
-        </div>
-
-        <div
-          style={{
-            display: 'flex',
-            justifyContent: 'flex-end'
-          }}
-        >
-          <button className="minigreenbutton" onClick={successpayment}>
-            confirm
-          </button>
         </div>
       </div>
     </div>
   )
 }
 
-export default Paymentpage
+export default PaymentPage

@@ -1,15 +1,13 @@
-import React, { useState, useContext } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import Navbar from '../constitutive/Navbar'
 import { DatePicker, Select } from 'antd'
 import axios from '../../config/axios'
 import { setToken } from '../services/localStorageService'
-import { AuthContext } from '../context/AuthContextProvider'
-import { useHistory } from 'react-router-dom'
-function SignUpPage() {
-  const { setIsAuthenticated } = useContext(AuthContext)
-  const history = useHistory()
+import { useAuthContext } from '../context/AuthContextProvider'
+import { useHistory, useParams } from 'react-router-dom'
+
+function ProfilePage() {
   const [input, setInput] = useState({
-    email: '',
     password: '',
     confirmPassword: '',
     firstName: '',
@@ -19,19 +17,38 @@ function SignUpPage() {
     phoneNumber: '',
     status: 'MEMBER'
   })
+  const {
+    isAuthenticated,
+    setIsAuthenticated,
+    getUser,
+    user
+  } = useAuthContext()
+  // console?.log(user)
 
-  const handleOnSignup = async (e) => {
-    await axios.post('/users', input).then((res) => {
-      setToken(res.data.token)
-      setIsAuthenticated(true)
+  const history = useHistory()
 
-      history.push('/login')
+  const { userId } = useParams()
+
+  useEffect(async () => {
+    await setInput({
+      firstName: user?.firstName,
+      lastName: user?.lastName,
+      birthdate: user?.birthdate,
+      gender: user?.gender,
+      phoneNumber: user?.phoneNumber,
+      status: 'MEMBER'
+    })
+  }, [user])
+
+  const handleSummitEdit = async (e) => {
+    await axios.put('/users/edituser', input).then((res) => {
+      history.push('/')
     })
   }
 
   const { Option } = Select
 
-  function handleSelectChange(value) {
+  function handleChange(value) {
     console.log(`selected ${value}`)
     input.gender = value
     console.log(input)
@@ -50,21 +67,21 @@ function SignUpPage() {
     if (event) {
       const { _d } = event
       input.birthdate = _d.toString()
-      console.log(event)
     }
   }
   return (
     <div>
       <Navbar />
 
-      <div className="centersignup">
-        <h1 className="headertext">Create your account</h1>
+      <div className="centerinput">
+        <h1 className="headertext">Profile</h1>
         <div>
           <input
             className="whiteinput"
             style={{ width: '200px' }}
-            placeholder="Firstname"
+            // placeholder="Firstname"
             name="firstName"
+            value={input.firstName}
             onChange={handleInputChange}
           ></input>
           <input
@@ -72,18 +89,11 @@ function SignUpPage() {
             style={{ width: '200px' }}
             placeholder="Lastname"
             name="lastName"
+            value={input.lastName}
             onChange={handleInputChange}
           ></input>
         </div>
 
-        <input
-          className="whiteinput"
-          style={{ width: '405px' }}
-          type="email"
-          placeholder="Email"
-          name="email"
-          onChange={handleInputChange}
-        ></input>
         <input
           className="whiteinput"
           style={{ width: '405px' }}
@@ -105,6 +115,7 @@ function SignUpPage() {
           style={{ width: '405px' }}
           placeholder="Phonenumber"
           name="phoneNumber"
+          value={input.phoneNumber}
           onChange={handleInputChange}
         ></input>
 
@@ -143,7 +154,7 @@ function SignUpPage() {
                 borderColor: '#a6a6a6',
                 color: '#a6a6a6'
               }}
-              onChange={handleSelectChange}
+              onChange={handleChange}
             >
               <Option value="Male">Male</Option>
               <Option value="Female">Female</Option>
@@ -152,12 +163,16 @@ function SignUpPage() {
           </div>
         </div>
 
-        <button onClick={handleOnSignup} className="greenbutton" type="button">
-          Sign Up
+        <button
+          onClick={handleSummitEdit}
+          className="greenbutton"
+          type="button"
+        >
+          Edit
         </button>
       </div>
     </div>
   )
 }
 
-export default SignUpPage
+export default ProfilePage
